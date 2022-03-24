@@ -1,2 +1,1 @@
-# dds-to-yaml
-Simple web service to convert NSI-DDS documents into a YAML format for import into LibreNMS
+Utililty to convert service information contained in NSI-DDS documents to a YAML configuration for LibreNMS monitoring of AutomateGOLE resources.
