@@ -1,0 +1,132 @@
+spring:
+    application:
+       name: dds-to-yaml
+    mvc:
+        pathmatch:
+            matching-strategy: ant_path_matcher
+
+logging:
+    level:
+        root: INFO
+        org.apache.tomcat: INFO
+        org.apache.catalina: INFO
+        net.es.nsi.dds.yaml: DEBUG
+
+server:
+    address: 0.0.0.0
+    port: 8080
+    contextPath: /
+    packageName: net.es.nsi.dds.yaml
+    connection-timeout: 60s
+
+    error:
+        whitelabel.enabled: false
+        include-exception: true
+        include-stacktrace: always
+
+    tomcat:
+        threads:
+            max: 200
+
+        accesslog:
+            enabled: true
+            directory: logs
+            file-date-format: yyyy-MM-dd
+            prefix: access_log
+            suffix: .log
+
+springfox:
+    documentation:
+        swagger:
+          v1.path: /v1/api-docs
+          v2.path: /v2/api-docs
+
+nsi:
+    ddsUrl: "https://dds.netherlight.net/dds"
+
+    client:
+        maxConnPerRoute: 5
+        maxConnTotal: 10
+        secure: true
+
+    secure:
+        keyStore:
+            file: /config/keystore.jks
+            password: "changeit"
+            type: "JKS"
+
+        trustStore:
+            file: /config/truststore.jks
+            password: "changeit"
+            type: "JKS"
+
+        production: false
+
+yaml:
+    ignore:
+        - "urn:ogf:network:jgn-x.jp:2013:nsa"
+        - "urn:ogf:network:safnari.netherlight.net:2013:nsa:safnari"
+        - "urn:ogf:network:dev.automation.surf.net:2017:nsa:safnari"
+        - "urn:ogf:network:dev.automation.surf.net:2017:nsa"
+        - "urn:ogf:network:staging.automation.surf.net:2017:nsa"
+        - "urn:ogf:network:test.es.net:2013:nsa"
+        - "urn:ogf:network:calit2.optiputer.net:2020:nsa"
+        - "urn:ogf:network:cnsi.cesnet.cz:2017:nsa"
+        - "urn:ogf:network:gcs.geant.net:2019:nsa"
+
+    force_add:
+        - "urn:ogf:network:canarie.ca:2017:nsa"
+        - "urn:ogf:network:netherlight.net:2013:nsa:safnari"
+        - "urn:ogf:network:surf.nl:2020:nsa"
+        - "urn:ogf:network:sinet.ac.jp:2013:nsa:nsi-aggr"
+        - "urn:ogf:network:sinet.ac.jp:2013:nsa"
+        - "urn:ogf:network:lsanca.pacificwave.net:2016:nsa"
+        - "urn:ogf:network:snvaca.pacificwave.net:2016:nsa"
+        - "urn:ogf:network:sttlwa.pacificwave.net:2016:nsa"
+
+    discovery:
+        "[urn:ogf:network:es.net:2013:nsa]": https://oscars-web.es.net/api/nsa/discovery
+        "[urn:ogf:network:es.net:2013:nsa:nsi-aggr-west]": https://nsi-aggr-west.es.net/nsa-discovery
+        "[urn:ogf:network:uhnet.net:2021:nsa]": https://nsi0.uhnet.net:9443/NSI/discovery.xml
+        "[urn:ogf:network:sinet.ac.jp:2013:nsa]": https://aggr.nsi.nii.ac.jp:28443/NSI/sinet.ac.jp:2013:nsa.xml
+        "[urn:ogf:network:sinet.ac.jp:2013:nsa:nsi-aggr]": https://aggr.nsi.nii.ac.jp:28443/NSI/sinet-nsi-aggr_2013-nsa.xml
+        "[urn:ogf:network:snvaca.pacificwave.net:2016:nsa]": https://nsi0.snvaca.pacificwave.net:9443/NSI/discovery.xml
+        "[urn:ogf:network:tb.es.net:2013:nsa]": https://oscars-testbed.es.net/api/nsa/discovery
+        "[urn:ogf:network:nrp-nautilus.io:2021:nsa:safnari]": https://opennsa.nsi.nrp-nautilus.io/NSI/discovery.xml
+        "[urn:ogf:network:daej-nsi.kreonet.net:2020:nsa]": https://daej-nsi.kreonet.net:9443/NSI/discovery.xml
+        "[urn:ogf:network:icair.org:2013:nsa]": https://opennsa.northwestern.edu:9443/NSI/discovery.xml
+        "[urn:ogf:network:tokyjp.pacificwave.net:2018:nsa]": https://nsi0.tokyjp.pacificwave.net:9443/NSI/discovery.xml
+        "[urn:ogf:network:cipo.rnp.br:2014:nsa:safnari]": https://agg.cipo.rnp.br/nsa-discovery
+        "[urn:ogf:network:southernlight.net.br:2013:nsa]": https://southernlight.net.br:9443/NSI/discovery.xml
+        "[urn:ogf:network:canarie.ca:2017:nsa]": https://opennsa.canarie.ca:9443/NSI/discovery.xml
+        "[urn:ogf:network:netherlight.net:2013:nsa:safnari]": https://agg.netherlight.net/nsa-discovery
+        "[urn:ogf:network:ampath.net:2013:nsa]": https://nsi.ampath.net:9443/NSI/discovery.xml
+        "[urn:ogf:network:lsanca.pacificwave.net:2016:nsa]": https://nsi0.lsanca.pacificwave.net:9443/NSI/discovery.xml
+        "[urn:ogf:network:cipo.rnp.br:2014:nsa]": http://idc.cipo.rnp.br/rnp-nsa.xml
+        "[urn:ogf:network:surf.nl:2020:nsa]": https://opennsa.automation.surf.net/NSI/discovery.xml
+        "[urn:ogf:network:sttlwa.pacificwave.net:2016:nsa]": https://nsi0.sttlwa.pacificwave.net:9443/NSI/discovery.xml
+
+    services:
+      rtt_and_pl:
+        type: ping
+        name: "RTT and PL"
+
+      valid_cert:
+        type: http
+        name: "Validate certificate"
+
+      discovery:
+        type: http
+        name: "Discovery"
+
+      dds:
+        type: http
+        name: "DDS"
+
+      provider:
+        type: http
+        name: "CS Provider"
+
+      requester:
+        type: http
+        name: "CS Requester"

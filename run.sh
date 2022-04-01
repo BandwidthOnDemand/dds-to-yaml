@@ -5,7 +5,7 @@ KEYSTORE=pkcs/keystore.p12
 STORETYPE="PKCS12"
 PASSWORD="changeit"
 
-/usr/bin/java \
+java \
         -Xmx512m -Djava.net.preferIPv4Stack=true  \
         -Dcom.sun.xml.bind.v2.runtime.JAXBContextImpl.fastBoot=true \
         -Djavax.net.ssl.trustStore=$TRUSTSTORE \
