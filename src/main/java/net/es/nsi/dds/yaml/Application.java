@@ -73,15 +73,17 @@ public class Application {
     // Dump some runtime information.
     RuntimeMXBean mxBean = ManagementFactory.getRuntimeMXBean();
     LOG.info("Name: {}, {}", context.getApplicationName(), mxBean.getName());
+    LOG.info("Pid: {}", getPid());
+    /*
     try {
       LOG.info("Pid: {}", getProcessId(mxBean));
     } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException |
             NoSuchMethodException | InvocationTargetException ex) {
       LOG.error("[NSI-DDS-YAML] Could not determine Pid", ex);
     }
-
+    */
     LOG.info("Uptime: {} ms", mxBean.getUptime());
-    LOG.info("BootClasspath: {}", mxBean.getBootClassPath());
+    //LOG.info("BootClasspath: {}", mxBean.getBootClassPath());
     LOG.info("Classpath: {}", mxBean.getClassPath());
     LOG.info("Library Path: {}", mxBean.getLibraryPath());
 
@@ -136,7 +138,7 @@ public class Application {
     // Get the application base directory.
     String pidFile = System.getProperty(SYSTEM_PROPERTY_PIDFILE);
     pidFile = cmd.getOptionValue(ARGNAME_PIDFILE, pidFile);
-    int pid = getPid();
+    long pid = getPid();
     if (pidFile == null || pidFile.isEmpty() || pid == -1) {
       return;
     }
@@ -160,15 +162,16 @@ public class Application {
    *
    * @return pid
    */
-  private static int getPid() {
-    RuntimeMXBean mxBean = ManagementFactory.getRuntimeMXBean();
-    try {
-      return getProcessId(mxBean);
-    } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
-            | NoSuchMethodException | InvocationTargetException ex) {
-      System.err.printf("Error: Could not determine pid, ex = %s\n", ex.toString());
-      return -1;
-    }
+  private static long getPid() {
+    return ProcessHandle.current().pid();
+    //RuntimeMXBean mxBean = ManagementFactory.getRuntimeMXBean();
+    //try {
+    //  return getProcessId(mxBean);
+    //} catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
+    //        | NoSuchMethodException | InvocationTargetException ex) {
+    //  System.err.printf("Error: Could not determine pid, ex = %s\n", ex.toString());
+    //  return -1;
+    //}
   }
 
   private static final int MEGABYTE = (1024 * 1024);

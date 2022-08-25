@@ -1,7 +1,7 @@
 #! /bin/sh
 
-TRUSTSTORE=pkcs/truststore.p12
-KEYSTORE=pkcs/keystore.p12
+TRUSTSTORE=/Users/hacksaw/pkcs/truststore.p12
+KEYSTORE=/Users/hacksaw/pkcs/keystore.p12
 STORETYPE="PKCS12"
 PASSWORD="changeit"
 
@@ -16,5 +16,6 @@ java \
         -Djavax.net.ssl.keyStoreType=$STORETYPE \
 	-Dlog4j.configurationFile=config/log4j.xml \
 	-Dspring.config.name=secure-application \
+	--illegal-access=debug \
         -jar "target/dds-yaml-1.0.0.jar" \
 	-pidFile "./yaml.pid" 

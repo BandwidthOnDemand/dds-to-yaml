@@ -1,13 +1,12 @@
 package net.es.nsi.dds.yaml.controller;
 
-import net.es.nsi.dds.yaml.dao.Error;
 import com.google.common.base.Strings;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
-import net.es.nsi.dds.yaml.Application;
+import net.es.nsi.dds.yaml.dao.Error;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
  * Exception
@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author hacksaw
  */
 @ControllerAdvice
-public abstract class ControllerErrorHandling {
-  private static final Logger LOG = LogManager.getLogger(Application.class);
+public class ControllerErrorHandling extends ResponseEntityExceptionHandler {
+  private static final Logger LOG = LogManager.getLogger(ControllerErrorHandling.class);
 
   @ExceptionHandler(MalformedURLException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -62,21 +62,6 @@ public abstract class ControllerErrorHandling {
     return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
   }
 
-
-  /**
-   * @ExceptionHandler(BadMessageException.class)
-  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-  @ResponseBody
-  public ResponseEntity<?> handleBadMessageException(HttpServletRequest request, BadMessageException ex) {
-    LOG.error("BadMessageException: recieved BadMessageException for request {}", request.getRequestURL());
-    LOG.error(getHeaders(request));
-    Error error = Error.builder()
-            .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-            .error_description(ex.getMessage())
-            .build();
-    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-  }
-*/
   @ExceptionHandler({URISyntaxException.class, Exception.class})
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
